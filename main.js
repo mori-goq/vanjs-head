@@ -1,3 +1,5 @@
+const cssPath = van.state('style.css')
+
 const Head = () => {
   const { meta, title, link } = van.tags
 
@@ -8,10 +10,29 @@ const Head = () => {
       name: 'viewport',
       content: 'width=device-width, initial-scale=1.0',
     }),
-    title('動的に追加したタイトル'),
-    link({ rel: 'stylesheet', href: 'style.css' })
+    title('vanjs-head'),
+    // cssのパスを変数にして、動的に変更できるようにしている
+    link({ rel: 'stylesheet', href: cssPath })
   ]
 }
 
 // headタグに追加
 van.add(document.head, Head())
+
+const App = () => {
+  const { div, button } = van.tags
+
+  return div(
+    button(
+      { type: 'button', onclick: () => (cssPath.val = 'style.css') },
+      'style.css',
+    ),
+    button(
+      { type: 'button', onclick: () => (cssPath.val = 'style2.css') },
+      'style2.css',
+    ),
+  )
+}
+
+// bodyタグに追加
+van.add(document.body, App())
